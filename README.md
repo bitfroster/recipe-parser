@@ -16,7 +16,7 @@ docker run recipes-parser
 or run Unit tests:
 ```
 docker run -it recipes-parser python -m unittest tests.test_recipe_normalizer
-
+```
 Alternatively you can use your local Python interpreter:
 ```
 virtualenv .venv
