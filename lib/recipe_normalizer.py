@@ -13,6 +13,8 @@ class RecipeNormalizer:
         self.__ureg = UnitRegistry()
 
     def convert_units(self, amount, from_unit, to_unit):
+        if from_unit is None:
+            return amount
         return self.__ureg.Quantity(amount, from_unit).to(to_unit).magnitude
 
     def normalize_recipe(self, recipe):
@@ -25,15 +27,18 @@ class RecipeNormalizer:
                             self.convert_units(
                                 ingredient.quantity, ingredient.unit, "g"
                             )
-                            if ingredient.unit.lower() in ["lb", "pound", "pounds"]
+                            if ingredient.unit
+                            and ingredient.unit.lower() in ["lb", "pound", "pounds"]
                             else ingredient.quantity
                         ),
                         unit=(
                             "g"
-                            if ingredient.unit.lower() in ["lb", "pound", "pounds"]
+                            if ingredient.unit
+                            and ingredient.unit.lower() in ["lb", "pound", "pounds"]
                             else (
                                 "ml"
-                                if ingredient.unit.lower() in ["oz", "ounce", "ounces"]
+                                if ingredient.unit
+                                and ingredient.unit.lower() in ["oz", "ounce", "ounces"]
                                 else ingredient.unit
                             )
                         ),
@@ -64,5 +69,5 @@ class RecipeNormalizer:
                 else:
                     print(f"Unsupported file format: {file_name}")
 
-        with open(config.get("output_file", "output_file.json"), "w") as file:
+        with open(config.get("output_file", "output.json"), "w") as file:
             json.dump(recipes, file, indent=2)
