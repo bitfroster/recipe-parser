@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List
 from pydantic import BaseModel
 from .recipe_ingredient import RecipeIngredient
 
@@ -6,4 +6,4 @@ from .recipe_ingredient import RecipeIngredient
 class Recipe(BaseModel):
     name: str
     ingredients: List[RecipeIngredient]
-    preperations: Optional[str] = None
+    preperations: List[str] | None
